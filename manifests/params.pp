@@ -41,7 +41,7 @@ class dynatraceoneagent::params {
     $infra_only                  = undef
     $network_zone                = undef
 
-    if $::osfamily == 'Windows' {
+    if $facts['os']['family'] == 'Windows' {
         #Parameters for Windows OneAgent Download
         $os_type                    = 'windows'
         $download_dir               = 'C:\\Windows\\Temp'
@@ -50,11 +50,11 @@ class dynatraceoneagent::params {
         $global_group                       = 'Administrators'
         $service_name                       = 'Dynatrace OneAgent'
         $provider                           = 'windows'
-        $default_install_dir                = "${::dynatrace_oneagent_programfiles}\\dynatrace\\oneagent"
+        $default_install_dir                = "${facts['dynatrace_oneagent_programfiles']}\\dynatrace\\oneagent"
         $oneagent_ctl                       = 'oneagentctl.exe'
-        $windows_pwsh                       = "${::system32}\\WindowsPowerShell\\v1.0"
+        $windows_pwsh                       = "${facts['os']['windows']['system32']}\\WindowsPowerShell\\v1.0"
         $require_value                      = Package[$service_name]
-        $oneagent_puppet_conf_dir           = "${::dynatrace_oneagent_appdata}\\dynatrace\\oneagent\\agent\\config\\puppet"
+        $oneagent_puppet_conf_dir           = "${facts['dynatrace_oneagent_appdata']}\\dynatrace\\oneagent\\agent\\config\\puppet"
         $oneagent_comms_config_file         = "${oneagent_puppet_conf_dir}\\deployment.conf"
         $oneagent_logmonitoring_config_file = "${oneagent_puppet_conf_dir}\\logmonitoring.conf"
         $oneagent_logaccess_config_file     = "${oneagent_puppet_conf_dir}\\logaccess.conf"
@@ -64,7 +64,7 @@ class dynatraceoneagent::params {
         $hostmetadata_config_file           = "${oneagent_puppet_conf_dir}\\hostcustomproperties.conf"
         $oneagent_infraonly_config_file     = "${oneagent_puppet_conf_dir}\\infraonly.conf"
         $oneagent_networkzone_config_file   = "${oneagent_puppet_conf_dir}\\networkzone.conf"
-    } elsif ($::kernel == 'Linux') or ($::osfamily == 'AIX')  {
+    } elsif ($facts['kernel'] == 'Linux') or ($facts['os']['family'] == 'AIX')  {
         #Parameters for Linux/AIX OneAgent Download
         $download_dir               = '/tmp'
         #Parameters for Linux/AIX OneAgent Installer

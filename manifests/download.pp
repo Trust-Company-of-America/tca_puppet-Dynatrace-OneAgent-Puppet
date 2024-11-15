@@ -48,12 +48,12 @@ class dynatraceoneagent::download {
     }
   }
 
-  if ($::kernel == 'Linux' or $::osfamily  == 'AIX') and ($dynatraceoneagent::verify_signature) and ($package_state != 'absent'){
+  if ($facts['kernel'] == 'Linux' or $facts['os']['family']  == 'AIX') and ($dynatraceoneagent::verify_signature) and ($package_state != 'absent'){
 
     file { $dynatraceoneagent::dt_root_cert:
       ensure  => present,
       mode    => $global_mode,
-      source  => "puppet:///${ca_cert_src_path}",
+      source  => "puppet:///modules/${ca_cert_src_path}",
       require => File[$download_dir]
     }
 
